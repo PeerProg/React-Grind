@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import InputField from './components/input-field';
+import { useState } from 'react';
 import Tabs from './Tabs';
 
 function App() {
@@ -17,6 +18,12 @@ function App() {
         items={items}
         handleTabClick={handleTabClick}
         activeTab={activeTab}
+      />
+      <InputField
+        label="Name"
+        handleInputChange={() => {}}
+        required
+        errors={['Is required']}
       />
     </AppWrapper>
   );
