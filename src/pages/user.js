@@ -4,9 +4,13 @@ import InputField from '../components/input-field';
 import Spacer from '../components/spacer';
 
 const User = () => {
+  const handleSubmit = ev => {
+    ev.preventDefault();
+  };
+
   return (
     <StyledPageWrapper>
-      <StyledForm>
+      <StyledForm onSubmit={handleSubmit}>
         <InputField label="Name" type="text" required />
         <Spacer height={18} />
         <InputField label="Role" type="text" />
@@ -19,7 +23,7 @@ const User = () => {
 
         <Spacer height={25} />
 
-        <StyledButton>SUBMIT</StyledButton>
+        <StyledButton type="submit">SUBMIT</StyledButton>
       </StyledForm>
     </StyledPageWrapper>
   );
@@ -57,4 +61,5 @@ const StyledButton = styled.button`
   box-shadow: 4px 4px 4px #888;
   font-size: 17px;
   font-weight: bold;
+  cursor: pointer;
 `;
