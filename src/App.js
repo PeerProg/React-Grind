@@ -1,6 +1,9 @@
-import styled from 'styled-components';
-import InputField from './components/input-field';
 import { useState } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
+import User from './pages/user';
+import Privacy from './pages/privacy';
+import Done from './pages/done';
 import Tabs from './Tabs';
 
 function App() {
@@ -19,12 +22,11 @@ function App() {
         handleTabClick={handleTabClick}
         activeTab={activeTab}
       />
-      <InputField
-        label="Name"
-        handleInputChange={() => {}}
-        required
-        errors={['Is required']}
-      />
+      <Switch>
+        <Route path="/user" component={User} />
+        <Route path="/privacy" component={Privacy} />
+        <Route path="/done" component={Done} />
+      </Switch>
     </AppWrapper>
   );
 }

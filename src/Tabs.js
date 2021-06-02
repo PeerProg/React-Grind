@@ -6,13 +6,15 @@ const StyledTabWrapper = styled.div`
   width: fit-content;
   font-size: 16px;
   font-weight: 16px;
-  margin: auto;
   align-items: center;
   justify-content: center;
   border-left: 2px solid black;
   border-right: 2px solid black;
   border-top: none;
   border-bottom: none;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
 
   :first-child {
     border-left: none;

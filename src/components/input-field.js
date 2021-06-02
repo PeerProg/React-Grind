@@ -86,7 +86,7 @@ const StyledInput = styled.input`
   border-radius: 6px;
   border: 1px solid black;
   height: 30px;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 18px;
   margin: 0;
 `;
