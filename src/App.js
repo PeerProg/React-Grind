@@ -1,24 +1,38 @@
 import styled from 'styled-components';
 import InputField from './components/input-field';
+import { useState } from 'react';
+import Tabs from './Tabs';
 
 function App() {
+  const [activeTab, setActiveTab] = useState('User');
+
+  const items = ['User', 'Privacy', 'Done'];
+
+  const handleTabClick = e => {
+    setActiveTab(e.target.id);
+  };
+
   return (
-    <StyledAppWrapper>
+    <AppWrapper>
+      <Tabs
+        items={items}
+        handleTabClick={handleTabClick}
+        activeTab={activeTab}
+      />
       <InputField
         label="Name"
         handleInputChange={() => {}}
         required
         errors={['Is required']}
       />
-    </StyledAppWrapper>
+    </AppWrapper>
   );
 }
 
 export default App;
 
-const StyledAppWrapper = styled.div`
+const AppWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 30px;
-  border: 1px solid blue;
-  height: 100vh;
-  width: 100vw;
 `;
