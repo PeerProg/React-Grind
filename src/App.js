@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
+import InputField from './components/input-field';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StyledAppWrapper>
+      <InputField
+        label="Name"
+        handleInputChange={() => {}}
+        required
+        errors={['Is required']}
+      />
+    </StyledAppWrapper>
   );
 }
 
 export default App;
+
+const StyledAppWrapper = styled.div`
+  padding: 30px;
+  border: 1px solid blue;
+  height: 100vh;
+  width: 100vw;
+`;
