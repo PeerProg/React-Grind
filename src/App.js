@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import InputField from './components/input-field';
 import { useState } from 'react';
-import Tabs from './Tabs';
+import InputField from './components/input-field';
+import Tabs from './components/Tabs';
 
 function App() {
   const [activeTab, setActiveTab] = useState('User');
