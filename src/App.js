@@ -1,19 +1,31 @@
-import './App.css';
+import { useState } from 'react';
+import styled from 'styled-components';
 import Tabs from './Tabs';
 
 function App() {
-  const items = [{name: 'User', active: true}, {name: 'Privacy', active: false}, {name: 'Done', active: false}]
+  const [activeTab, setActiveTab] = useState('User');
 
-  const handleTabClick = (e) => {
-    console.log('Did I? ', e, e.target.value);
-    return ;
+  const items = ['User', 'Privacy', 'Done'];
+
+  const handleTabClick = e => {
+    setActiveTab(e.target.id);
   };
 
   return (
-    <div className="App">
-      <Tabs items={items} handleTabClick={handleTabClick} />
-    </div>
+    <AppWrapper>
+      <Tabs
+        items={items}
+        handleTabClick={handleTabClick}
+        activeTab={activeTab}
+      />
+    </AppWrapper>
   );
 }
 
 export default App;
+
+const AppWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+`;
