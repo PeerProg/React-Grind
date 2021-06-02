@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import styled from 'styled-components';
+import Tabs from './Tabs';
 
 function App() {
+  const [activeTab, setActiveTab] = useState('User');
+
+  const items = ['User', 'Privacy', 'Done'];
+
+  const handleTabClick = e => {
+    setActiveTab(e.target.id);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppWrapper>
+      <Tabs
+        items={items}
+        handleTabClick={handleTabClick}
+        activeTab={activeTab}
+      />
+    </AppWrapper>
   );
 }
 
 export default App;
+
+const AppWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+`;
