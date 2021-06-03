@@ -1,31 +1,26 @@
 import styled from 'styled-components';
+import { Provider } from 'react-redux';
 import InputField from './components/input-field';
-import { useState } from 'react';
-import Tabs from './Tabs';
+import Tabs from './components/Tabs';
+import store from './store';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('User');
-
   const items = ['User', 'Privacy', 'Done'];
 
-  const handleTabClick = e => {
-    setActiveTab(e.target.id);
-  };
-
   return (
-    <AppWrapper>
-      <Tabs
-        items={items}
-        handleTabClick={handleTabClick}
-        activeTab={activeTab}
-      />
-      <InputField
-        label="Name"
-        handleInputChange={() => {}}
-        required
-        errors={['Is required']}
-      />
-    </AppWrapper>
+    <Provider store={store}>
+      <AppWrapper>
+        <Tabs
+          items={items}
+        />
+        <InputField
+          label="Name"
+          handleInputChange={() => {}}
+          required
+          errors={['Is required']}
+        />
+      </AppWrapper>
+    </Provider>
   );
 }
 

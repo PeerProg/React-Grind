@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 const StyledTabWrapper = styled.div`
   display: flex;
@@ -34,7 +35,7 @@ const StyledButton = styled.button`
   background-color: ${({ active }) => active && '#94bbf1'};
 `;
 
-export default function Tabs({ items, handleTabClick, activeTab }) {
+function Tabs({ items, handleTabClick, activeTab }) {
   return (
     <StyledTabWrapper>
       {items.map((item, index) => (
@@ -50,3 +51,19 @@ export default function Tabs({ items, handleTabClick, activeTab }) {
     </StyledTabWrapper>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    activeTab: state.tab.activeTab
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleTabClick: e => {
+      dispatch({ type: 'SET_ACTIVE_TAB', data: e.target.id });
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tabs);
