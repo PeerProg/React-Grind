@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
-import tabReducer from './reducer/index';
+import reducer from './reducer/index';
 
-const store = createStore(tabReducer);
+const store = createStore(reducer);
 
 export default store;

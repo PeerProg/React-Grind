@@ -54,15 +54,16 @@ function Tabs({ items, handleTabClick, activeTab }) {
 
 const mapStateToProps = state => {
   return {
-    activeTab: state.activeTab
+    activeTab: state.tab.activeTab
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleTabClick: (e) => {
-      dispatch({ type: 'SET_ACTIVE_TAB', data: e.target.id })}
-  }
+    handleTabClick: e => {
+      dispatch({ type: 'SET_ACTIVE_TAB', data: e.target.id });
+    }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tabs);
