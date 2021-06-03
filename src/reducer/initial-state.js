@@ -3,10 +3,16 @@ const initialState = {
     activeTab: 'User'
   },
   user: {
-    email: '',
-    name: '',
-    role: '',
-    password: ''
+    info: {
+      email: '',
+      name: '',
+      role: '',
+      password: ''
+    },
+    privacy: {
+      productUpdateComms: false,
+      otherProductsUpdateComms: false
+    }
   }
 };
 
