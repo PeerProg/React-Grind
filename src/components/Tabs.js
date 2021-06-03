@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const StyledTabWrapper = styled.div`
   display: flex;
@@ -38,13 +39,17 @@ const StyledButton = styled.button`
 `;
 
 function Tabs({ items, handleTabClick, activeTab }) {
+  const history = useHistory();
   return (
     <StyledTabWrapper>
       {items.map((item, index) => (
         <StyledButton
           key={index}
           active={item === activeTab}
-          onClick={handleTabClick}
+          onClick={e => {
+            handleTabClick(e);
+            history.push(`/${e.target.id.toLowerCase()}`);
+          }}
           id={item}
         >
           {item}
