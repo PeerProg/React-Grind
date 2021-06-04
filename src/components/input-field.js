@@ -9,12 +9,13 @@ const InputField = ({
   label,
   required,
   type,
-  value
+  value,
+  placeholder
 }) => {
   return (
     <StyledInputWrapper>
       <StyledLabelHolder>
-        <StyledLabel>{label}</StyledLabel>
+        <StyledLabel htmlFor={label}>{label}</StyledLabel>
         {required && (
           <>
             <Spacer width={4} />
@@ -25,7 +26,13 @@ const InputField = ({
 
       <Spacer height={2} />
 
-      <StyledInput onChange={handleInputChange} value={value} type={type} />
+      <StyledInput
+        id={label}
+        onChange={handleInputChange}
+        value={value}
+        type={type}
+        placeholder={placeholder}
+      />
 
       <Spacer height={2} />
 
@@ -63,7 +70,6 @@ InputField.defaultProps = {
 const StyledInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 500px;
 `;
 
 const StyledLabelHolder = styled.span`

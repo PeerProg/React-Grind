@@ -15,9 +15,9 @@ function App() {
       <AppWrapper>
         <Tabs items={items} />
         <Switch>
-          <Route path="/user" component={User} />
-          <Route path="/privacy" component={Privacy} />
-          <Route path="/done" component={Done} />
+          <Route path={['/user', '/']} component={User} exact />
+          <Route path="/privacy" component={Privacy} exact />
+          <Route path="/done" component={Done} exact />
         </Switch>
       </AppWrapper>
     </Provider>
