@@ -1,19 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { updateUserPrivacy } from '../actions';
+import { updateUserInfo, updateUserPrivacy } from '../actions';
 import Spacer from '../components/spacer';
 import CheckedBox from '../checkbox.svg';
 import BlankCheckBox from '../blank-check-box.svg';
 
 const Privacy = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const privacy = useSelector(state => state.user.privacy);
+  const userData = useSelector(state => state.user);
+
+  useEffect(() => {
+    dispatch({ type: 'SET_ACTIVE_TAB', data: 'Privacy' });
+  }, [dispatch]);
 
   const { productUpdateComms, otherProductsUpdateComms } = privacy;
   const handleSubmit = ev => {
     ev.preventDefault();
-    updateUserPrivacy({ productUpdateComms, otherProductsUpdateComms })
+    localStorage.setItem('data', JSON.stringify(userData));
+    dispatch(updateUserInfo({ name: '', email: '', role: '', password: '' }));
+    dispatch(
+      updateUserPrivacy({
+        productUpdateComms: false,
+        otherProductsUpdateComms: false
+      })
+    );
+    history.push('/done');
   };
 
   return (
@@ -22,42 +37,54 @@ const Privacy = () => {
         <Spacer height={18} />
 
         <StyledCheckBoxWrapper>
-          { productUpdateComms ?
+          {productUpdateComms ? (
             <StyledImage
               src={CheckedBox}
-              alt='checked-checkbox'
-              style={{width: '15px', height: '15px'}}
-              onClick={() => dispatch(updateUserPrivacy({productUpdateComms: false}))}
-            /> :
+              alt="checked-checkbox"
+              style={{ width: '15px', height: '15px' }}
+              onClick={() =>
+                dispatch(updateUserPrivacy({ productUpdateComms: false }))
+              }
+            />
+          ) : (
             <StyledImage
               src={BlankCheckBox}
-              alt='blank-checkbox'
-              style={{width: '15px', height: '15px'}}
-              onClick={() => dispatch(updateUserPrivacy({productUpdateComms: true}))}
+              alt="blank-checkbox"
+              style={{ width: '15px', height: '15px' }}
+              onClick={() =>
+                dispatch(updateUserPrivacy({ productUpdateComms: true }))
+              }
             />
-          }
+          )}
           <div>Recieve updates about Tray.io product by email</div>
         </StyledCheckBoxWrapper>
-        
+
         <Spacer height={18} />
 
         <StyledCheckBoxWrapper>
-          { otherProductsUpdateComms ?
+          {otherProductsUpdateComms ? (
             <StyledImage
               src={CheckedBox}
-              alt='checked-checkbox'
-              style={{width: '15px', height: '15px'}}
-              onClick={() => dispatch(updateUserPrivacy({otherProductsUpdateComms: false}))}
+              alt="checked-checkbox"
+              style={{ width: '15px', height: '15px' }}
+              onClick={() =>
+                dispatch(updateUserPrivacy({ otherProductsUpdateComms: false }))
+              }
             />
-            :
+          ) : (
             <StyledImage
               src={BlankCheckBox}
-              alt='blank-checkbox'
-              style={{width: '15px', height: '15px'}}
-              onClick={() => dispatch(updateUserPrivacy({otherProductsUpdateComms: true}))}
+              alt="blank-checkbox"
+              style={{ width: '15px', height: '15px' }}
+              onClick={() =>
+                dispatch(updateUserPrivacy({ otherProductsUpdateComms: true }))
+              }
             />
-          }
-          <div>Recieve communication by email for other products created by the Tray.io team</div>
+          )}
+          <div>
+            Recieve communication by email for other products created by the
+            Tray.io team
+          </div>
         </StyledCheckBoxWrapper>
 
         <Spacer height={18} />

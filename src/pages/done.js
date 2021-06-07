@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Spacer from '../components/spacer';
 
 const Done = () => {
+  const dispatch = useDispatch();
+
+  const userDataString = localStorage.getItem('data');
+
+  const userData = userDataString ? JSON.parse(userDataString) : {};
+
+  console.log('User Data', userData);
+
+  useEffect(() => {
+    dispatch({ type: 'SET_ACTIVE_TAB', data: 'Done' });
+    return () => {
+      localStorage.removeItem('data');
+    };
+  }, [dispatch]);
+
   return (
     <StyledPageWrapper>
       <StyledTick src="/tick.svg" alt="" />

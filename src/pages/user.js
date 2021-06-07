@@ -1,39 +1,30 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { updateUserInfo } from '../actions';
 import InputField from '../components/input-field';
 import Spacer from '../components/spacer';
+import { validateForm } from '../helpers/validator';
 
 const User = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
 
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
 
-  const passwordValidation = (password) => {
-    console.log('password', password);
-    const lowerCaseLetters = /[a-z]/g;
-    const upperCaseLetters = /[A-Z]/g;
-    const numbers = /[0-9]/g;
-    if (password.length < 10) {
-      return setErrors(['Invalid Password']);
-    } else if (!password.match(lowerCaseLetters).length) {
-      return setErrors(['Invalid Password']);
-    } else if (!password.match(upperCaseLetters).length) {
-      return setErrors(['Invalid Password']);
-    } else if (!password.match(numbers).length) {
-      return setErrors(['Invalid Password']);
-    } else {
-      return;
-    }
-  };
+  useEffect(() => {
+    dispatch({ type: 'SET_ACTIVE_TAB', data: 'User' });
+  }, [dispatch]);
 
-
-  console.log('error: ', errors);
   const handleSubmit = ev => {
-    passwordValidation(user?.info?.password);
     ev.preventDefault();
+    const errors = validateForm(user.info);
+    setErrors(errors);
+    if (Object.values(errors).length === 0) {
+      history.push('/privacy');
+    }
   };
   return (
     <StyledPageWrapper>
@@ -44,9 +35,13 @@ const User = () => {
           required
           placeholder="Enter your name"
           handleInputChange={e => {
+            setErrors(err => {
+              return { ...err, name: [] };
+            });
             dispatch(updateUserInfo({ name: e.target.value }));
           }}
           value={user?.info?.name}
+          errors={errors.name}
         />
         <Spacer height={18} />
         <InputField
@@ -62,13 +57,17 @@ const User = () => {
 
         <InputField
           label="Email"
-          type="email"
+          type="text"
           required
           placeholder="Enter a valid Email address"
           handleInputChange={e => {
+            setErrors(err => {
+              return { ...err, email: [] };
+            });
             dispatch(updateUserInfo({ email: e.target.value }));
           }}
           value={user?.info?.email}
+          errors={errors.email}
         />
         <Spacer height={18} />
 
@@ -78,15 +77,18 @@ const User = () => {
           required
           placeholder="Enter your password"
           handleInputChange={e => {
+            setErrors(err => {
+              return { ...err, password: [] };
+            });
             dispatch(updateUserInfo({ password: e.target.value }));
           }}
           value={user?.info?.password}
-          errors={errors}
+          errors={errors.password}
         />
 
         <Spacer height={25} />
 
-        <StyledButton type="submit" disable={!!errors.length}>SUBMIT</StyledButton>
+        <StyledButton type="submit">SUBMIT</StyledButton>
       </StyledForm>
     </StyledPageWrapper>
   );
