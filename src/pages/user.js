@@ -1,19 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { updateUserInfo } from '../actions';
 import InputField from '../components/input-field';
 import Spacer from '../components/spacer';
+import { validateForm } from '../helpers/validator';
 
 const User = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
 
-  console.log('User Deets', user);
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    dispatch({ type: 'SET_ACTIVE_TAB', data: 'User' });
+  }, [dispatch]);
+
   const handleSubmit = ev => {
     ev.preventDefault();
+    const errors = validateForm(user.info);
+    setErrors(errors);
+    if (Object.values(errors).length === 0) {
+      history.push('/privacy');
+    }
   };
-
   return (
     <StyledPageWrapper>
       <StyledForm onSubmit={handleSubmit}>
@@ -23,9 +35,13 @@ const User = () => {
           required
           placeholder="Enter your name"
           handleInputChange={e => {
+            setErrors(err => {
+              return { ...err, name: [] };
+            });
             dispatch(updateUserInfo({ name: e.target.value }));
           }}
           value={user?.info?.name}
+          errors={errors.name}
         />
         <Spacer height={18} />
         <InputField
@@ -41,13 +57,17 @@ const User = () => {
 
         <InputField
           label="Email"
-          type="email"
+          type="text"
           required
           placeholder="Enter a valid Email address"
           handleInputChange={e => {
+            setErrors(err => {
+              return { ...err, email: [] };
+            });
             dispatch(updateUserInfo({ email: e.target.value }));
           }}
           value={user?.info?.email}
+          errors={errors.email}
         />
         <Spacer height={18} />
 
@@ -55,11 +75,15 @@ const User = () => {
           label="Password"
           type="password"
           required
-          placeholder="Enter your passwword"
+          placeholder="Enter your password"
           handleInputChange={e => {
+            setErrors(err => {
+              return { ...err, password: [] };
+            });
             dispatch(updateUserInfo({ password: e.target.value }));
           }}
           value={user?.info?.password}
+          errors={errors.password}
         />
 
         <Spacer height={25} />
