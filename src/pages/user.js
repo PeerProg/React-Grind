@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { updateUserInfo } from '../actions';
@@ -9,11 +9,32 @@ const User = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
 
-  console.log('User Deets', user);
-  const handleSubmit = ev => {
-    ev.preventDefault();
+  const [errors, setErrors] = useState([]);
+
+  const passwordValidation = (password) => {
+    console.log('password', password);
+    const lowerCaseLetters = /[a-z]/g;
+    const upperCaseLetters = /[A-Z]/g;
+    const numbers = /[0-9]/g;
+    if (password.length < 10) {
+      return setErrors(['Invalid Password']);
+    } else if (!password.match(lowerCaseLetters).length) {
+      return setErrors(['Invalid Password']);
+    } else if (!password.match(upperCaseLetters).length) {
+      return setErrors(['Invalid Password']);
+    } else if (!password.match(numbers).length) {
+      return setErrors(['Invalid Password']);
+    } else {
+      return;
+    }
   };
 
+
+  console.log('error: ', errors);
+  const handleSubmit = ev => {
+    passwordValidation(user?.info?.password);
+    ev.preventDefault();
+  };
   return (
     <StyledPageWrapper>
       <StyledForm onSubmit={handleSubmit}>
@@ -60,11 +81,12 @@ const User = () => {
             dispatch(updateUserInfo({ password: e.target.value }));
           }}
           value={user?.info?.password}
+          errors={errors}
         />
 
         <Spacer height={25} />
 
-        <StyledButton type="submit">SUBMIT</StyledButton>
+        <StyledButton type="submit" disable={!!errors.length}>SUBMIT</StyledButton>
       </StyledForm>
     </StyledPageWrapper>
   );
