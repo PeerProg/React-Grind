@@ -10,8 +10,8 @@ const initialState = {
       password: ''
     },
     privacy: {
-      productUpdateComms: false,
-      otherProductsUpdateComms: false
+      productUpdateComms: true,
+      otherProductsUpdateComms: true
     }
   }
 };
