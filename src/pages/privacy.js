@@ -76,7 +76,6 @@ const StyledPageWrapper = styled.div`
 
 const StyledForm = styled.form`
   width: 900px;
-  min-height: 50vh;
   border-radius: 5px;
   margin-left: auto;
   margin-right: auto;

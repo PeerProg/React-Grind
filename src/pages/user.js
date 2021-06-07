@@ -76,7 +76,7 @@ const User = () => {
           label="Password"
           type="password"
           required
-          placeholder="Enter your passwword"
+          placeholder="Enter your password"
           handleInputChange={e => {
             dispatch(updateUserInfo({ password: e.target.value }));
           }}
