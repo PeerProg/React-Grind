@@ -21,6 +21,7 @@ const User = () => {
           label="Name"
           type="text"
           required
+          placeholder="Enter your name"
           handleInputChange={e => {
             dispatch(updateUserInfo({ name: e.target.value }));
           }}
@@ -30,6 +31,7 @@ const User = () => {
         <InputField
           label="Role"
           type="text"
+          placeholder="Enter your role (e.g Software Engineer)"
           handleInputChange={e => {
             dispatch(updateUserInfo({ role: e.target.value }));
           }}
@@ -41,6 +43,7 @@ const User = () => {
           label="Email"
           type="email"
           required
+          placeholder="Enter a valid Email address"
           handleInputChange={e => {
             dispatch(updateUserInfo({ email: e.target.value }));
           }}
@@ -52,6 +55,7 @@ const User = () => {
           label="Password"
           type="password"
           required
+          placeholder="Enter your passwword"
           handleInputChange={e => {
             dispatch(updateUserInfo({ password: e.target.value }));
           }}
@@ -70,21 +74,22 @@ export default User;
 
 const StyledPageWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  border: 1px solid black;
-  width: 50vw;
-  min-height: 50vh;
-  border-radius: 5px;
-  padding: 15px;
-  margin-left: auto;
-  margin-right: auto;
 `;
 
 const StyledForm = styled.form`
-  width: 100%;
+  width: 900px;
+  min-height: 50vh;
+  border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
   height: 100%;
   display: flex;
+  padding: 15px 25px 15px 15px;
+
+  display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 `;
 
 const StyledButton = styled.button`

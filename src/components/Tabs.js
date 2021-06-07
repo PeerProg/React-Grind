@@ -30,7 +30,7 @@ const StyledButton = styled.button`
   border-right: none;
   border-left: 2px solid black;
   cursor: pointer;
-  width: 150px;
+  width: 300px;
   height: 40px;
   font-size: 16px;
   font-weight: 600;
