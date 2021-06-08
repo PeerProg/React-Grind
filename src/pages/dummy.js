@@ -47,7 +47,7 @@ export default Dummy;
 
 const StyledWrapper = styled.div`
   padding: 30px;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100vw;
   background-color: lightblue;
 `;

@@ -38,9 +38,16 @@ const StyledButton = styled.button`
   background-color: ${({ active }) => active && '#94bbf1'};
 `;
 
+const pathsWhereTabsShouldShow = ['/', '/user', '/privacy', '/done'];
+
 function Tabs({ items, handleTabClick, activeTab }) {
   const history = useHistory();
-  return (
+
+  const shouldShow = pathsWhereTabsShouldShow.includes(
+    history?.location?.pathname
+  );
+
+  return shouldShow ? (
     <StyledTabWrapper>
       {items.map((item, index) => (
         <StyledButton
@@ -56,7 +63,7 @@ function Tabs({ items, handleTabClick, activeTab }) {
         </StyledButton>
       ))}
     </StyledTabWrapper>
-  );
+  ) : null;
 }
 
 const mapStateToProps = state => {
