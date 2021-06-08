@@ -18,7 +18,7 @@ export default SelectOption;
 const StyledButton = styled.button`
   padding: 5px;
   height: 50px;
-  width: 300px;
+  width: 100%;
   display: flex;
   border: none;
   background-color: ${({ index }) =>
@@ -28,4 +28,5 @@ const StyledButton = styled.button`
   line-height: 24px;
   outline: none;
   cursor: pointer;
+  box-sizing: border-box;
 `;

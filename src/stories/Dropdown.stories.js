@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import Dropdown from '../components/Dropdown';
 
@@ -7,15 +7,29 @@ export default {
   component: Dropdown,
 };
 
-const Template = (args) => <Dropdown {...args} />;
+const Template = (args) => {
+  const [showOptions, setShowOptions] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('')
+
+  const handleOptionClick = (e) => {
+    setSelectedOption(e.target.value);
+  };
+
+  return (
+    <Dropdown
+      {...args}
+      showOptions={showOptions} 
+      setShowOptions={setShowOptions}
+      selectedOption={selectedOption}
+      setSelectedOption={setSelectedOption}
+      handleOptionClick={handleOptionClick}
+    />
+    );
+};
 
 export const Default = Template.bind({});
 Default.args = {
-  handleOptionClick: () => {},
-  showOptions: () => {},
-  setShowOptions: () => {},
-  placeHolder: () => {},
-  selectedOption: () => {},
+  placeHolder: 'Select an option',
   options: [
     { label: 'Tangerine', value: 'Tangerine' },
     { label: 'Orange', value: 'Orange' },
