@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Dropdown = () => {
+const Dropdown = ({handleOptionClick, showOptions, setShowOptions, placeHolder, selectedOption, options}) => {
   return (
     <DropdownWrapper>
       <DropdownButton>Dropdown Component</DropdownButton>
@@ -17,6 +17,6 @@ const DropdownWrapper = styled.div`
 `;
 
 const DropdownButton= styled.button`
-  width: 150px;
-  height: 30px;
+  width: 300px;
+  height: 40px;
 `;

@@ -10,4 +10,16 @@ export default {
 const Template = (args) => <Dropdown {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  handleOptionClick: () => {},
+  showOptions: () => {},
+  setShowOptions: () => {},
+  placeHolder: () => {},
+  selectedOption: () => {},
+  options: [
+    { label: 'Tangerine', value: 'Tangerine' },
+    { label: 'Orange', value: 'Orange' },
+    { label: 'Potato', value: 'Potato' },
+    { label: 'Banana', value: 'Banana' }
+  ]
+};
