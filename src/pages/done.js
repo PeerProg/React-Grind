@@ -25,7 +25,7 @@ const Done = () => {
     };
   }, [dispatch, userDataString]);
 
-  return (
+  return userDataString ? (
     <StyledPageWrapper>
       <StyledTick src="/tick.svg" alt="" />
       <Spacer height={24} />
@@ -36,7 +36,7 @@ const Done = () => {
         </StyledText>
       </>
     </StyledPageWrapper>
-  );
+  ) : null;
 };
 
 export default Done;
