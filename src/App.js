@@ -6,6 +6,7 @@ import Done from './pages/done';
 import { Provider } from 'react-redux';
 import Tabs from './components/Tabs';
 import store from './store';
+import Dummy from './pages/dummy';
 
 function App() {
   const items = ['User', 'Privacy', 'Done'];
@@ -18,6 +19,7 @@ function App() {
           <Route path={['/user', '/']} component={User} exact />
           <Route path="/privacy" component={Privacy} exact />
           <Route path="/done" component={Done} exact />
+          <Route path="/dummy" component={Dummy} exact />
         </Switch>
       </AppWrapper>
     </Provider>
