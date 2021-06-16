@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import SelectOption from '../components/select-option';
+import DownChevron from '../assets/down-chevron.svg';
+import UpChevron from '../assets/up-arrow-angle.svg';
 
 const Dropdown = ({
   handleOptionClick,
@@ -14,6 +16,11 @@ const Dropdown = ({
       <DropdownButton
         onClick={() => setShowOptions((s) => !s)}>
           {selectedOption || placeHolder}
+
+          {!showOptions ?
+            <StyledImage src={DownChevron} alt="down-chevron-button" style={{ width: '15px', height: '15px' }} /> :
+            <StyledImage src={UpChevron} alt="up-chevron-button"  style={{ width: '15px', height: '15px' }} />
+            }
       </DropdownButton>
       
       {showOptions &&
@@ -43,6 +50,11 @@ const DropdownButton= styled.button`
   width: 300px;
   height: 40px;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-weight: 400;
+  font-size: 16px;
 `;
 
 const SelectOptionDiv = styled.div`
@@ -50,4 +62,7 @@ const SelectOptionDiv = styled.div`
   min-height: 50px;
   border: 1px solid black;
   width: 300px;
+`;
+
+const StyledImage = styled.img`
 `;
