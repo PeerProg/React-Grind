@@ -1,30 +1,31 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import Dropdown from '../components/Dropdown';
 
 export default {
   title: 'Components/Dropdown',
-  component: Dropdown,
+  component: Dropdown
 };
 
-const Template = (args) => {
+const Template = args => {
   const [showOptions, setShowOptions] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('')
+  const [selectedOption, setSelectedOption] = useState('');
 
-  const handleOptionClick = (e) => {
+  const handleOptionClick = e => {
     setSelectedOption(e.target.value);
+    setShowOptions(false);
   };
 
   return (
     <Dropdown
       {...args}
-      showOptions={showOptions} 
+      showOptions={showOptions}
       setShowOptions={setShowOptions}
       selectedOption={selectedOption}
       setSelectedOption={setSelectedOption}
       handleOptionClick={handleOptionClick}
     />
-    );
+  );
 };
 
 export const Default = Template.bind({});

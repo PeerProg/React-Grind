@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SelectOption from '../components/select-option';
 import DownChevron from '../assets/down-chevron.svg';
@@ -10,33 +10,78 @@ const Dropdown = ({
   setShowOptions,
   placeHolder,
   selectedOption,
-  options}) => {
+  options
+}) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [displayedOptions, setDisplayedOptions] = useState([]);
+
+  useEffect(() => {
+    if (searchQuery.trim().length === 0) {
+      setDisplayedOptions(options);
+    } else {
+      const filteredOptions = options.filter(option =>
+        option.label.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setDisplayedOptions(filteredOptions);
+    }
+    return () => {
+      setDisplayedOptions([]);
+    };
+  }, [options, searchQuery]);
+
+  const handleSearchInputChange = e => {
+    e.preventDefault();
+    setSearchQuery(e.target.value.trim());
+  };
+
   return (
     <DropdownWrapper>
-      <DropdownButton
-        onClick={() => setShowOptions((s) => !s)}>
-          {selectedOption || placeHolder}
+      <DropdownButton onClick={() => setShowOptions(s => !s)}>
+        {selectedOption || placeHolder}
 
-          {!showOptions ?
-            <StyledImage src={DownChevron} alt="down-chevron-button" style={{ width: '15px', height: '15px' }} /> :
-            <StyledImage src={UpChevron} alt="up-chevron-button"  style={{ width: '15px', height: '15px' }} />
-            }
+        {!showOptions ? (
+          <StyledImage
+            src={DownChevron}
+            alt="down-chevron-button"
+            style={{ width: '15px', height: '15px' }}
+          />
+        ) : (
+          <StyledImage
+            src={UpChevron}
+            alt="up-chevron-button"
+            style={{ width: '15px', height: '15px' }}
+          />
+        )}
       </DropdownButton>
-      
-      {showOptions &&
+
+      {showOptions && (
         <SelectOptionDiv>
-          {options.map((option, ind) => {
-            return (<SelectOption
-            option={option}
-            index={ind}
-            key={ind}
-            handleOptionClick={handleOptionClick}
-          />)
+          <SearchWrapperDiv>
+            <SearchInput
+              type="search"
+              onChange={handleSearchInputChange}
+              value={searchQuery}
+              placeholder="Enter a search term"
+            />
+          </SearchWrapperDiv>
+          {displayedOptions.map((option, ind) => {
+            return (
+              <SelectOption
+                option={option}
+                index={ind}
+                key={ind}
+                handleOptionClick={e => {
+                  handleOptionClick(e);
+                  setSearchQuery('');
+                }}
+              />
+            );
           })}
-      </SelectOptionDiv>}
+        </SelectOptionDiv>
+      )}
     </DropdownWrapper>
-  )
-}
+  );
+};
 
 export default Dropdown;
 
@@ -46,7 +91,7 @@ const DropdownWrapper = styled.div`
   align-items: center;
 `;
 
-const DropdownButton= styled.button`
+const DropdownButton = styled.button`
   width: 300px;
   height: 40px;
   cursor: pointer;
@@ -64,5 +109,21 @@ const SelectOptionDiv = styled.div`
   width: 300px;
 `;
 
-const StyledImage = styled.img`
+const StyledImage = styled.img``;
+
+const SearchWrapperDiv = styled.div`
+  padding: 5px;
+  width: 100%;
+  min-height: 50px;
+  border: none;
+  box-sizing: border-box;
+`;
+
+const SearchInput = styled.input`
+  width: 100%;
+  height: 40px;
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 3px;
+  font-size: 18px;
 `;
