@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Spacer from './spacer';
 
-const InputField = ({
+const InputField = forwardRef(({
   errors,
   handleInputChange,
   label,
   required,
   type,
   value,
-  placeholder
-}) => {
+  placeholder,
+  isForSlider,
+  inputStyle,
+  ...rest
+}, ref ) => {
   return (
     <StyledInputWrapper>
       <StyledLabelHolder>
@@ -32,10 +35,14 @@ const InputField = ({
         value={value}
         type={type}
         placeholder={placeholder}
+        ref={ref}
+        {...rest}
+        style={inputStyle}
       />
 
+      {!isForSlider && <>
       <Spacer height={2} />
-
+      
       {errors.length > 0 && (
         <>
           {errors.map((err, idx) => (
@@ -43,9 +50,10 @@ const InputField = ({
           ))}
         </>
       )}
+      </>}
     </StyledInputWrapper>
   );
-};
+});
 
 export default InputField;
 
@@ -55,7 +63,7 @@ InputField.propTypes = {
   label: PropTypes.string,
   required: PropTypes.bool,
   type: PropTypes.string,
-  value: PropTypes.string
+  value: PropTypes.any
 };
 
 InputField.defaultProps = {
