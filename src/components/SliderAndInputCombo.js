@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import InputField from './input-field';
 
 const SliderAndInputCombo = ({max, min, step=1}) => {
-  const [sliderValue, setSliderValue] = useState('');
+  const [sliderValue, setSliderValue] = useState(0);
   const [numberValue, setNumberValue] = useState(0);
   const [numberInputFocused, setNumberInputFocused] = useState(false);
   const numberInputRef = useRef();
@@ -27,6 +27,7 @@ const SliderAndInputCombo = ({max, min, step=1}) => {
 
   const handleSliderInputChange = (e) => {
     setSliderValue(e.target.value);
+    setNumberValue(e.target.value);
   }
 
   const getNumberInputStyle = () => {
