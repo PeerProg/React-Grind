@@ -4,19 +4,10 @@ import InputField from './input-field';
 
 const SliderAndInputCombo = ({max, min, step=1}) => {
   const [sliderValue, setSliderValue] = useState('');
-  const [numberValue, setNumberValue] = useState('');
-  const [numberInputFocused, setNumberInputFocused] = useState(true);
+  const [numberValue, setNumberValue] = useState(0);
+  const [numberInputFocused, setNumberInputFocused] = useState(false);
   const numberInputRef = useRef();
   let timerId = null;
-
-  useEffect(() => {
-    // checks if the element is focused
-    if (document.activeElement === numberInputRef.current) {
-      setNumberInputFocused(true)
-    } else {
-      setNumberInputFocused(false)
-    }
-  }, [])
 
   useEffect(() => {
     return () => {
@@ -25,7 +16,6 @@ const SliderAndInputCombo = ({max, min, step=1}) => {
   }, [timerId])
 
   const handleNumberInputChange = (e) => {
-    setNumberInputFocused(true)
     let number = Number(e.target.value);
     if (number >= min && number <= max) {
       setNumberValue(number);
@@ -42,12 +32,20 @@ const SliderAndInputCombo = ({max, min, step=1}) => {
   const getNumberInputStyle = () => {
     if (numberInputFocused) {
       return { 
-        width: '200px'
+        width: '200px',
+        height: '80px',
+        fontSize: '70px',
+        fontWeight: 400,
+        textAlign: 'center'
       }
     }
 
     return { 
-      border: 'none', 
+      border: 'none',
+      height: '80px',
+      fontSize: '70px',
+      fontWeight: 400,
+      textAlign: 'center'
     };
   };
 
@@ -65,6 +63,7 @@ const SliderAndInputCombo = ({max, min, step=1}) => {
         handleInputChange={handleNumberInputChange}
         inputStyle={getNumberInputStyle()}
         onBlur={() => setNumberInputFocused(false)}
+        onFocus={() => setNumberInputFocused(true)}
         ref={numberInputRef}
       />
       <InputField
