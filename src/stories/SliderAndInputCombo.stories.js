@@ -9,10 +9,13 @@ export default {
 const Template = (args) => {
 
   return (
-    <SliderAndInputCombo />
+    <SliderAndInputCombo {...args} />
     );
 };
 
 export const Default = Template.bind({});
 Default.args = {
+  min: 0,
+  max: 100,
+  step: 10
 };
