@@ -26,6 +26,35 @@ const ImagePicker = () => {
     }
   };
 
+  const handleDragAndDrop = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    let file;
+    if (e.dataTransfer.items) {
+      file = e.dataTransfer.items[0].getAsFile();
+    } else {
+      [file] = e.dataTransfer.files;
+    }
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+
+    reader.onloadend = () => {
+      setImageSrc(reader.result);
+      setFilename(file.name);
+    };
+  };
+
+  const handleDragOver = e => {
+    e.preventDefault();
+  };
+
+  const handleReset = e => {
+    e.preventDefault();
+    setImageSrc('');
+    setFilename(null);
+  };
+
   return (
     <StyledImagePicker>
       <StyledImageSelector>
@@ -44,13 +73,7 @@ const ImagePicker = () => {
         {imageSrc && (
           <>
             <Spacer height={15} />
-            <StyledButton
-              onClick={() => {
-                setImageSrc('');
-                setFilename(null);
-              }}
-              plain
-            >
+            <StyledButton onClick={handleReset} plain>
               Remove Image
             </StyledButton>
           </>
@@ -58,7 +81,11 @@ const ImagePicker = () => {
       </StyledImageSelector>
       <Spacer width={40} />
       <div>
-        <StyledImageScreen src={imageSrc} />
+        <StyledImageScreen
+          src={imageSrc}
+          onDrop={handleDragAndDrop}
+          onDragOver={handleDragOver}
+        />
         <p>{filename || 'No file selected'}</p>
       </div>
     </StyledImagePicker>
