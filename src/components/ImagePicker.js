@@ -59,7 +59,7 @@ const ImagePicker = () => {
       <Spacer width={40} />
       <div>
         <StyledImageScreen src={imageSrc} />
-        {filename && <p>{filename}</p>}
+        <p>{filename || 'No file selected'}</p>
       </div>
     </StyledImagePicker>
   );
@@ -70,11 +70,21 @@ export default ImagePicker;
 const StyledImagePicker = styled.div`
   display: flex;
   box-sizing: border-box;
+
+  @media screen and (max-width: 600px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 const StyledImageSelector = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media screen and (max-width: 600px) {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -98,11 +108,16 @@ const StyledButton = styled.button`
 
 const StyledImageScreen = styled.div`
   display: flex;
+  border: 1px solid black;
   height: 400px;
   width: 400px;
   ${({ src }) => src && `background-image: url(${src})`};
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: contain;
+  background-size: cover;
   background-clip: border-box;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
