@@ -3,7 +3,7 @@ import Card from './Card';
 import DownChevron from '../assets/down-chevron.svg';
 import UpChevron from '../assets/up-arrow-angle.svg';
 
-const Icon = ({showContent}) => {
+const Icon = ({ showContent }) => {
   return !showContent ? (
     <StyledImage
       src={DownChevron}
@@ -16,26 +16,28 @@ const Icon = ({showContent}) => {
       alt="up-chevron-button"
       style={{ width: '15px', height: '15px' }}
     />
-  )
-}
+  );
+};
 
-const Accordion = ({title, content, setShowContent, showContent}) => {
-
-
+const Accordion = ({ title, content, setOpenCardId, id, isOpen }) => {
   const handleContentDisplay = () => {
-    setShowContent(prev => !prev);
+    if (isOpen) {
+      setOpenCardId(null);
+    } else {
+      setOpenCardId(id);
+    }
   };
 
   return (
     <StyledCard width="250px" height="100%">
       <StyledHeader onClick={handleContentDisplay}>
         <StyledTitle>{title}</StyledTitle>
-        <Icon showContent={showContent}/>
+        <Icon showContent={isOpen} />
       </StyledHeader>
-      {showContent && <StyledContent>{content}</StyledContent>}
+      {isOpen && <StyledContent>{content}</StyledContent>}
     </StyledCard>
-  )
-}
+  );
+};
 
 export default Accordion;
 
@@ -46,14 +48,20 @@ const StyledCard = styled(Card)`
 const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 15px;
 `;
 
 const StyledTitle = styled.div`
   display: flex;
+  font-size: 18px;
+  font-weight: 500;
 `;
 
 const StyledImage = styled.img``;
 
 const StyledContent = styled.div`
-  margin-top: 15px;
+  margin-top: 8px;
+  padding: 0 15px 15px 15px;
+  font-size: 14px;
+  font-weight: 300;
 `;
