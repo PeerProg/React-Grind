@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -10,58 +10,63 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Spacer from './spacer';
 
+const arrOfMenuItems = [
+  {
+    icon: faCoffee,
+    label: 'Coffee',
+    color: 'brown'
+  },
+  {
+    icon: faUser,
+    label: 'User',
+    color: 'green'
+  },
+  {
+    icon: faTrash,
+    label: 'Delete',
+    color: 'red'
+  },
+  {
+    icon: faLock,
+    label: 'Security',
+    color: 'blue'
+  },
+  {
+    icon: faHouseUser,
+    label: 'House',
+    color: 'orange'
+  }
+];
+
 const Icon = ({ imageSrc, altText, imgStyle }) => {
   return <StyledImage src={imageSrc} alt={altText} style={imgStyle} />;
 };
 
-const MenuItem = ({ icon, label, color }) => {
+const MenuItem = ({ icon, label, color, sideBarCollapsed }) => {
   return (
     <StyledMenuRoot>
       <FontAwesomeIcon icon={icon} color={color} />
-      <Spacer width={12} />
-      <StyledParagraph>{label}</StyledParagraph>
+      {!sideBarCollapsed && (
+        <>
+          <Spacer width={12} />
+          <StyledParagraph>{label}</StyledParagraph>
+        </>
+      )}
     </StyledMenuRoot>
   );
 };
 
 const SideBarWithIconsAndText = () => {
-  const arrOfMenuItems = [
-    {
-      icon: faCoffee,
-      label: 'Coffee',
-      color: 'brown'
-    },
-    {
-      icon: faUser,
-      label: 'User',
-      color: 'green'
-    },
-    {
-      icon: faTrash,
-      label: 'Delete',
-      color: 'red'
-    },
-    {
-      icon: faLock,
-      label: 'Security',
-      color: 'blue'
-    },
-    {
-      icon: faHouseUser,
-      label: 'House',
-      color: 'orange'
-    }
-  ];
+  const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
 
   return (
     <StyledSideBarWrapper>
-      <StyledAppLogo>
+      <StyledAppLogo sideBarCollapsed={sideBarCollapsed}>
         <Icon
           imageSrc="/marvel-logo.png"
           altText="swift-app-logo"
-          imgStyle={{ width: '300px', height: '75px' }}
+          imgStyle={{ width: '100%', height: '100%' }}
         />
-        <StyledParagraph>Seyi Aromokeye</StyledParagraph>
       </StyledAppLogo>
       {arrOfMenuItems.map((item, idx) => (
         <MenuItem
@@ -69,19 +74,34 @@ const SideBarWithIconsAndText = () => {
           label={item.label}
           key={idx}
           color={item.color}
+          sideBarCollapsed={sideBarCollapsed}
         />
       ))}
+
+      <Spacer height={50} />
+
+      <StyledCta
+        onClick={() => {
+          setSideBarCollapsed(c => !c);
+        }}
+      >
+        Toggle
+      </StyledCta>
     </StyledSideBarWrapper>
   );
 };
 
 export default SideBarWithIconsAndText;
 
-const StyledMenuRoot = styled.div`
+const StyledMenuRoot = styled.button`
   display: flex;
   width: 280px;
+  height: 40px;
   align-items: center;
-  font-family: Goldman;
+  outline: none;
+  cursor: pointer;
+  border: none;
+  background-color: white;
 `;
 
 const StyledSideBarWrapper = styled.div`
@@ -96,8 +116,16 @@ const StyledSideBarWrapper = styled.div`
 const StyledAppLogo = styled.div`
   display: flex;
   flex-direction: column;
+  width: 280px;
+  height: 60px;
 `;
 
 const StyledImage = styled.img``;
 
 const StyledParagraph = styled.p``;
+
+const StyledCta = styled.button`
+  width: 120px;
+  height: 40px;
+  font-size: 24px;
+`;
