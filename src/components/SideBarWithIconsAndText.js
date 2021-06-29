@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCoffee,
@@ -46,12 +46,8 @@ const MenuItem = ({ icon, label, color, sideBarCollapsed }) => {
   return (
     <StyledMenuRoot>
       <FontAwesomeIcon icon={icon} color={color} />
-      {!sideBarCollapsed && (
-        <>
-          <Spacer width={12} />
-          <StyledParagraph>{label}</StyledParagraph>
-        </>
-      )}
+      <Spacer width={12} />
+      <MenuItemLabel sideBarCollapsed={sideBarCollapsed}>{label}</MenuItemLabel>
     </StyledMenuRoot>
   );
 };
@@ -60,23 +56,23 @@ const SideBarWithIconsAndText = () => {
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
 
   return (
-    <StyledSideBarWrapper>
-      <StyledAppLogo sideBarCollapsed={sideBarCollapsed}>
-        <Icon
-          imageSrc="/marvel-logo.png"
-          altText="swift-app-logo"
-          imgStyle={{ width: '100%', height: '100%' }}
-        />
-      </StyledAppLogo>
-      {arrOfMenuItems.map((item, idx) => (
-        <MenuItem
-          icon={item.icon}
-          label={item.label}
-          key={idx}
-          color={item.color}
-          sideBarCollapsed={sideBarCollapsed}
-        />
-      ))}
+    <StyledSideBarWrapper sideBarCollapsed={sideBarCollapsed}>
+      <StyledAppLogo
+        sideBarCollapsed={sideBarCollapsed}
+        src="/marvel-logo.png"
+        alt="marvel-logo"
+      />
+      <MenuItemsWrapper sideBarCollapsed={sideBarCollapsed}>
+        {arrOfMenuItems.map((item, idx) => (
+          <MenuItem
+            icon={item.icon}
+            label={item.label}
+            key={idx}
+            color={item.color}
+            sideBarCollapsed={sideBarCollapsed}
+          />
+        ))}
+      </MenuItemsWrapper>
 
       <Spacer height={50} />
 
@@ -84,6 +80,7 @@ const SideBarWithIconsAndText = () => {
         onClick={() => {
           setSideBarCollapsed(c => !c);
         }}
+        sideBarCollapsed={sideBarCollapsed}
       >
         Toggle
       </StyledCta>
@@ -95,7 +92,6 @@ export default SideBarWithIconsAndText;
 
 const StyledMenuRoot = styled.button`
   display: flex;
-  width: 280px;
   height: 40px;
   align-items: center;
   outline: none;
@@ -104,28 +100,60 @@ const StyledMenuRoot = styled.button`
   background-color: white;
 `;
 
-const StyledSideBarWrapper = styled.div`
+const StyledSideBarWrapper = styled.aside`
   display: flex;
   flex-direction: column;
   width: 350px;
   padding: 10px;
   border: 1px solid blue;
   height: 500px;
+  transition: all 0.2s;
+
+  ${({ sideBarCollapsed }) =>
+    sideBarCollapsed &&
+    css`
+      width: 80px;
+      height: 650px;
+    `}
 `;
 
-const StyledAppLogo = styled.div`
-  display: flex;
-  flex-direction: column;
+const MenuItemsWrapper = styled.div`
+  ${({ sideBarCollapsed }) =>
+    sideBarCollapsed &&
+    css`
+      margin-top: 230px;
+    `}
+`;
+
+const StyledAppLogo = styled.img`
   width: 280px;
   height: 60px;
+
+  ${({ sideBarCollapsed }) =>
+    sideBarCollapsed &&
+    css`
+      transform: rotate(-90deg) translate(-37%, -190%);
+    `}
 `;
 
 const StyledImage = styled.img``;
 
-const StyledParagraph = styled.p``;
+const MenuItemLabel = styled.p`
+  ${({ sideBarCollapsed }) =>
+    sideBarCollapsed &&
+    css`
+      display: none;
+    `}
+`;
 
 const StyledCta = styled.button`
   width: 120px;
   height: 40px;
   font-size: 24px;
+  ${({ sideBarCollapsed }) =>
+    sideBarCollapsed &&
+    css`
+      margin-top: -30px;
+      transform: rotate(-90deg) translate(-37%, -100%);
+    `}
 `;
