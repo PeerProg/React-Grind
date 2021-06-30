@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCoffee,
@@ -38,20 +38,12 @@ const arrOfMenuItems = [
   }
 ];
 
-const Icon = ({ imageSrc, altText, imgStyle }) => {
-  return <StyledImage src={imageSrc} alt={altText} style={imgStyle} />;
-};
-
 const MenuItem = ({ icon, label, color, sideBarCollapsed }) => {
   return (
     <StyledMenuRoot>
       <FontAwesomeIcon icon={icon} color={color} />
-      {!sideBarCollapsed && (
-        <>
-          <Spacer width={12} />
-          <StyledParagraph>{label}</StyledParagraph>
-        </>
-      )}
+      <Spacer width={12} />
+      <MenuItemLabel sideBarCollapsed={sideBarCollapsed}>{label}</MenuItemLabel>
     </StyledMenuRoot>
   );
 };
@@ -60,23 +52,23 @@ const SideBarWithIconsAndText = () => {
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
 
   return (
-    <StyledSideBarWrapper>
-      <StyledAppLogo sideBarCollapsed={sideBarCollapsed}>
-        <Icon
-          imageSrc="/marvel-logo.png"
-          altText="swift-app-logo"
-          imgStyle={{ width: '100%', height: '100%' }}
-        />
-      </StyledAppLogo>
-      {arrOfMenuItems.map((item, idx) => (
-        <MenuItem
-          icon={item.icon}
-          label={item.label}
-          key={idx}
-          color={item.color}
-          sideBarCollapsed={sideBarCollapsed}
-        />
-      ))}
+    <StyledSideBarWrapper sideBarCollapsed={sideBarCollapsed}>
+      <StyledAppLogo
+        sideBarCollapsed={sideBarCollapsed}
+        src="/marvel-logo.png"
+        alt="marvel-logo"
+      />
+      <MenuItemsWrapper sideBarCollapsed={sideBarCollapsed}>
+        {arrOfMenuItems.map((item, idx) => (
+          <MenuItem
+            icon={item.icon}
+            label={item.label}
+            key={idx}
+            color={item.color}
+            sideBarCollapsed={sideBarCollapsed}
+          />
+        ))}
+      </MenuItemsWrapper>
 
       <Spacer height={50} />
 
@@ -84,6 +76,7 @@ const SideBarWithIconsAndText = () => {
         onClick={() => {
           setSideBarCollapsed(c => !c);
         }}
+        sideBarCollapsed={sideBarCollapsed}
       >
         Toggle
       </StyledCta>
@@ -93,9 +86,32 @@ const SideBarWithIconsAndText = () => {
 
 export default SideBarWithIconsAndText;
 
+const fadeIn = keyframes`
+  from {
+    transform: scale(.25);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
+
+const fadeOut = keyframes`
+  from {
+    transform: scale(1);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(.25);
+    opacity: 1;
+  }
+`;
+
 const StyledMenuRoot = styled.button`
   display: flex;
-  width: 280px;
   height: 40px;
   align-items: center;
   outline: none;
@@ -104,28 +120,64 @@ const StyledMenuRoot = styled.button`
   background-color: white;
 `;
 
-const StyledSideBarWrapper = styled.div`
+const StyledSideBarWrapper = styled.aside`
   display: flex;
   flex-direction: column;
   width: 350px;
   padding: 10px;
   border: 1px solid blue;
   height: 500px;
+  transition: all 1.2s;
+
+  ${({ sideBarCollapsed }) =>
+    sideBarCollapsed &&
+    css`
+      width: 80px;
+      height: 650px;
+    `}
 `;
 
-const StyledAppLogo = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 280px;
+const MenuItemsWrapper = styled.div`
+  ${({ sideBarCollapsed }) =>
+    sideBarCollapsed &&
+    css`
+      margin-top: 230px;
+    `}
+`;
+
+const StyledAppLogo = styled.img`
+  width: 100%;
   height: 60px;
+  transition: all 1.2s;
+
+  ${({ sideBarCollapsed }) =>
+    sideBarCollapsed &&
+    css`
+      width: 280px;
+      height: 90px;
+      transform: rotate(-90deg) translate(-32%, -110%);
+    `}
 `;
 
-const StyledImage = styled.img``;
-
-const StyledParagraph = styled.p``;
+const MenuItemLabel = styled.p`
+  visibility: ${({ sideBarCollapsed }) =>
+    sideBarCollapsed ? 'hidden' : 'visible'};
+  animation: ${({ sideBarCollapsed }) => (sideBarCollapsed ? fadeOut : fadeIn)}
+    1.2s linear;
+  transition: visibility 1.2s linear;
+`;
 
 const StyledCta = styled.button`
   width: 120px;
   height: 40px;
   font-size: 24px;
+  cursor: pointer;
+  transition: all 1.2s;
+
+  ${({ sideBarCollapsed }) =>
+    sideBarCollapsed &&
+    css`
+      transform: rotate(-90deg);
+      margin-left: -40px;
+    `}
 `;
