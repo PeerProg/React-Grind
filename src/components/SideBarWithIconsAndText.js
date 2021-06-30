@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCoffee,
@@ -37,10 +37,6 @@ const arrOfMenuItems = [
     color: 'orange'
   }
 ];
-
-const Icon = ({ imageSrc, altText, imgStyle }) => {
-  return <StyledImage src={imageSrc} alt={altText} style={imgStyle} />;
-};
 
 const MenuItem = ({ icon, label, color, sideBarCollapsed }) => {
   return (
@@ -90,6 +86,30 @@ const SideBarWithIconsAndText = () => {
 
 export default SideBarWithIconsAndText;
 
+const fadeIn = keyframes`
+  from {
+    transform: scale(.25);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
+
+const fadeOut = keyframes`
+  from {
+    transform: scale(1);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(.25);
+    opacity: 1;
+  }
+`;
+
 const StyledMenuRoot = styled.button`
   display: flex;
   height: 40px;
@@ -107,7 +127,7 @@ const StyledSideBarWrapper = styled.aside`
   padding: 10px;
   border: 1px solid blue;
   height: 500px;
-  transition: all 0.2s;
+  transition: all 1.2s;
 
   ${({ sideBarCollapsed }) =>
     sideBarCollapsed &&
@@ -126,34 +146,38 @@ const MenuItemsWrapper = styled.div`
 `;
 
 const StyledAppLogo = styled.img`
-  width: 280px;
+  width: 100%;
   height: 60px;
+  transition: all 1.2s;
 
   ${({ sideBarCollapsed }) =>
     sideBarCollapsed &&
     css`
-      transform: rotate(-90deg) translate(-37%, -190%);
+      width: 280px;
+      height: 90px;
+      transform: rotate(-90deg) translate(-32%, -110%);
     `}
 `;
 
-const StyledImage = styled.img``;
-
 const MenuItemLabel = styled.p`
-  ${({ sideBarCollapsed }) =>
-    sideBarCollapsed &&
-    css`
-      display: none;
-    `}
+  visibility: ${({ sideBarCollapsed }) =>
+    sideBarCollapsed ? 'hidden' : 'visible'};
+  animation: ${({ sideBarCollapsed }) => (sideBarCollapsed ? fadeOut : fadeIn)}
+    1.2s linear;
+  transition: visibility 1.2s linear;
 `;
 
 const StyledCta = styled.button`
   width: 120px;
   height: 40px;
   font-size: 24px;
+  cursor: pointer;
+  transition: all 1.2s;
+
   ${({ sideBarCollapsed }) =>
     sideBarCollapsed &&
     css`
-      margin-top: -30px;
-      transform: rotate(-90deg) translate(-37%, -100%);
+      transform: rotate(-90deg);
+      margin-left: -40px;
     `}
 `;
